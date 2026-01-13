@@ -38,7 +38,7 @@
               v-model="email"
               label="Email"
               class="q-mb-md"
-              :rules="[val => requiredField(val, 'Email')]"
+              :rules="[val => requiredField(val, 'Email'), val => emailRule(val)]"
             />
 
             <q-input
@@ -95,12 +95,18 @@ const name = ref('');
 const email = ref('');
 const password = ref('');
 
+const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.){3}[0-9]{1,3}|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+
 const error = ref<string | null>(null)
 
 const isDisabled = computed(() => {
-  const anyEmpty = !email.value || !password.value
-  const shortPassword = password.value.length > 0 && password.value.length < 6
-  return anyEmpty || shortPassword
+  if (!name.value) return true
+  if (!email.value) return true
+  if (!password.value) return true
+  if (password.value.length < 6) return true
+  if (!isValidEmail(email.value)) return true
+
+  return false
 })
 
 async function handleSubmit() {
@@ -119,5 +125,13 @@ function requiredField(val: string, fieldName = 'Campo') {
 
 function minLength(val: string, length = 6, fieldName = 'Senha') {
   return val.length >= length || `${fieldName} deve ter no mínimo ${length} caracteres`
+}
+
+function isValidEmail(email: string): boolean {
+  return emailRegex.test(email)
+}
+
+function emailRule(val: string) {
+  return isValidEmail(val) || 'Email inválido'
 }
 </script>
