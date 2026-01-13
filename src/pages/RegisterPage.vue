@@ -44,12 +44,19 @@
             <q-input
               outlined
               hide-bottom-space
-              type="password"
+              :type="passwordIsVisible ? 'text' : 'password'"
               v-model="password"
               class="q-mb-lg"
               label="Senha"
               :rules="[val => requiredField(val, 'Senha'), val => minLength(val, 6, 'Senha')]"
-            />
+            >
+              <template v-slot:append>
+                <q-icon
+                  :name="passwordIsVisible ? 'visibility' : 'visibility_off'"
+                  @click="showPassword"
+                />
+              </template>
+            </q-input>
 
             <q-btn
               block
@@ -133,5 +140,10 @@ function isValidEmail(email: string): boolean {
 
 function emailRule(val: string) {
   return isValidEmail(val) || 'Email inválido'
+}
+
+const passwordIsVisible = ref(false)
+function showPassword() {
+  passwordIsVisible.value = !passwordIsVisible.value
 }
 </script>
