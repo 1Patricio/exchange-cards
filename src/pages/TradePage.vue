@@ -1,6 +1,19 @@
 <template>
   <div class="q-pa-md">
-    <h5 class="q-mb-sm text-secondary text-bold">Lista de Trocas</h5>
+    <div class="flex justify-between align-conten q-mb-sm" style="align-items: center; height: 80px;">
+      <h5 class=" text-secondary text-bold">Lista de Trocas</h5>
+      <q-btn
+        color="secondary"
+        icon="add_circle"
+        label="Solicitar Troca"
+        style="max-width: 200px; height: 10px;"
+        :disable="authStore.token == null"
+      >
+        <q-tooltip v-if="authStore.token == null">
+          Necesesário fazer login para solicitar uma troca
+        </q-tooltip>
+      </q-btn>
+    </div>
     <q-table
       flat
       bordered
@@ -20,6 +33,7 @@
       table-header-class="bg-grey-3"
 
     />
+
   </div>
 </template>
 
@@ -29,15 +43,18 @@ import { nextTick, onMounted, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useNotification } from '@/composables/useNotification'
 import { useRouter } from 'vue-router'
+import type { QTableColumn } from 'quasar'
+import { useAuthStore } from '@/stores/authStore'
 
 const tradeStore = useTradesStore()
 const { listTrade } = storeToRefs(tradeStore)
 const notification = useNotification()
 const router = useRouter()
+const authStore = useAuthStore()
 
 const canLoadMore = ref(false)
 
-const columns = [
+const columns: QTableColumn[] = [
   {
     name: 'user',
     label: 'Usuário',
@@ -92,20 +109,11 @@ async function onScroll({ to, ref }: { to: number; ref: any }) {
   }
 }
 
-function onClick(row: any, index: any) {
-  console.log('Linha completa:', row)
-  console.log('Index:', index)
-
-  // Você pode fazer o que quiser com o ID
-  //alert(`Clicou na troca ID: ${index.id}`)
-
+function onClick(_evt: Event, row: any) {
+  tradeStore.setSelectedTrade(row)
   router.push({
     name: 'trades-view',
-    params: {
-      id: index.id
-    }
+    params: { id: row.id }
   })
-
 }
-
 </script>
