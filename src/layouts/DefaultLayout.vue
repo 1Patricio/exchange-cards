@@ -17,14 +17,14 @@
           icon="assignment_ind"
         >
           <q-menu>
-            <q-list style="min-width: 160px">
+            <q-list style="min-width: 170px">
               <q-item clickable v-close-popup @click="logout">
                 <q-item-section avatar>
-                  <q-icon name="logout" />
+                  <q-icon :name="authStore.token == null ? 'login' : 'logout'" />
                 </q-item-section>
 
                 <q-item-section>
-                  Sair
+                  {{ authStore.token == null  ? 'Fazer Login' : 'Sair'}}
                 </q-item-section>
               </q-item>
             </q-list>
@@ -103,18 +103,18 @@ const drawer = ref(false);
 const miniState = ref(true);
 const nameUserAuth = ref('Bem Vindo!')
 
-const auth = useAuthStore()
+const authStore = useAuthStore()
 const notification = useNotification()
 const router = useRouter()
 
 onMounted(async () => {
-  await auth.getUserCurrent()
-  nameUserAuth.value = auth.user!.name
+  await authStore.getUserCurrent()
+  nameUserAuth.value = authStore.user!.name
 })
 
 function logout(){
   try {
-    auth.logout()
+    authStore.logout()
     router.push({ name: 'login'})
   } catch (error) {
     notification.error('Erro ao fazer logout: ');
