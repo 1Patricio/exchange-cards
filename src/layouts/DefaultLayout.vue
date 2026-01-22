@@ -99,13 +99,13 @@ import { useAuthStore } from '@/stores/authStore';
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router';
 
-const drawer = ref(false);
-const miniState = ref(true);
-const nameUserAuth = ref('Bem Vindo!')
-
 const authStore = useAuthStore()
 const notification = useNotification()
 const router = useRouter()
+
+const drawer = ref(false);
+const miniState = ref(true);
+const nameUserAuth = ref('Bem Vindo!')
 
 onMounted(async () => {
   await authStore.getUserCurrent()

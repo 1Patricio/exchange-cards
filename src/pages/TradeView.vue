@@ -10,10 +10,11 @@
         label="Voltar"
       />
       <h5 class="q-my-sm text-secondary text-bold">Troca de Cartas</h5>
+      <p class="text-grey-10">Troca solicitada por {{ trade?.user.name }} no dia {{ dateTrade }}</p>
     </header>
   </div>
 
-  <div class="q-mx-lg row flex justify-around q-my-none" style="align-items: center; height: 80px;">
+  <div class="q-mx-lg row flex justify-around no-wrap" style="align-items: center; height: 25px; ">
     <h6 class="text-red-7 text-bold">Oferencendo</h6>
     <q-icon
       name="compare_arrows"
@@ -92,10 +93,11 @@ import type { TradeCard } from '@/models/TradeCard'
 import { useTradesStore } from '@/stores/tradesStore'
 import { useQuasar, type VueStyleProp } from 'quasar'
 import {  onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const tradeStore = useTradesStore()
 const router = useRouter()
+const route = useRoute()
 const notification = useNotification()
 const $q = useQuasar()
 
@@ -106,6 +108,8 @@ const tradeCards = ref<TradeCard[]>()
 const cardsOffering = ref<Card[]>([])
 const cardsReceiving = ref<Card[]>([])
 const formattedDate = ref('')
+const dateTrade = ref('')
+const idTrade = ref<string | undefined>('')
 
 let ignoreSource: 'first' | 'second' | null = null
 
@@ -123,16 +127,43 @@ const barStyle: VueStyleProp = {
   opacity: '0.2'
 }
 
-onMounted(() => {
+onMounted(async () => {
+  idTrade.value = route.params.id?.toString()
+
+  if (!idTrade.value) {
+    notification.error("Solicitação de troca não encontrada")
+    router.push({ name: 'trades' })
+    return
+  }
+
   try {
+    if(!tradeStore.selectedTrade) {
+      await tradeStore.getTradesById(idTrade.value)
+    }
+
     trade.value = tradeStore.selectedTrade
+
+    if (!trade.value) {
+      notification.error("Solicitação de troca não encontrada")
+      router.push({ name: 'trades' })
+      return
+    }
+
+    const dateTradeString = new Date(trade.value.createdAt)
+    dateTrade.value = dateTradeString.toLocaleString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+
     tradeCards.value = trade.value!.tradeCards
     setListCard()
   } catch {
     notification.error("Não foi possível abrir visualização da troca selecionada")
     router.push({name: 'trades'})
   }
-
 })
 
 function setListCard() {

@@ -8,6 +8,7 @@
         label="Solicitar Troca"
         style="max-width: 200px; height: 10px;"
         :disable="authStore.token == null"
+        :to="{name: 'trade-form'}"
       >
         <q-tooltip v-if="authStore.token == null">
           Necesesário fazer login para solicitar uma troca
@@ -63,17 +64,17 @@ const columns: QTableColumn[] = [
     sortable: true
   },
   {
+    name: 'card-offering',
+    label: 'Oferecendo',
+    field: (row: any) => row.tradeCards?.find((tradeOffering: any) => tradeOffering.type === 'OFFERING')?.card?.name ?? '-',
+    align: 'left'
+  },
+  {
     name: 'card-receiving',
     label: 'Recebendo',
     field: (row: any) => row.tradeCards?.find((tradeReceiving: any) => tradeReceiving.type === 'RECEIVING')?.card?.name ?? '-',
     align: 'left'
   },
-  {
-    name: 'card-offering',
-    label: 'Oferecendo',
-    field: (row: any) => row.tradeCards?.find((tradeOffering: any) => tradeOffering.type === 'OFFERING')?.card?.name ?? '-',
-    align: 'left'
-  }
 ]
 
 onMounted(async () => {
@@ -89,15 +90,11 @@ onMounted(async () => {
   }
 })
 
-async function onScroll({ to, ref }: { to: number; ref: any }) {
+async function onScroll({ index, to, ref }: { index: number; to: number; ref: any }) {
   if (!canLoadMore.value) return
 
-  const lastIndex = listTrade.value.length - 1
-  const threshold = Math.max(0, lastIndex - 2)
-
-  if (to >= threshold && tradeStore.more && !tradeStore.isLoading) {
+  if (to == index && tradeStore.more && !tradeStore.isLoading && tradeStore.page < tradeStore.nextPage) {
     try {
-      tradeStore.page++
       await tradeStore.getTrades()
       await nextTick()
       ref.refresh()

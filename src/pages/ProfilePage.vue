@@ -5,7 +5,7 @@
       <LoadingComponent />
     </div>
     <div v-else>
-      <div v-if="cardStore.listUserCards">
+      <div v-if="cardStore.listUserCards.length">
         <q-input
         color="secondary q-mb-lg"
         v-model="search"
@@ -71,7 +71,7 @@
               contain
             />
             <h4 class="text-secondary text-bold q-mb-sm">Você não possui cartas!</h4>
-            <p class="text-grey-darken-1">Clique agora em <strong>Vincular Cartas</strong> e adicione cartas a sua conta</p>
+            <p class="text-grey-darken-1">Clique agora em <strong><router-link class="text-secondary" :to="{ name: 'card' }">Cartas</router-link></strong> e adicione cartas a sua conta</p>
           </div>
         </div>
       </div>
