@@ -7,6 +7,9 @@
     </div>
 
     <h5 class="q-my-sm text-secondary text-bold">Minhas Solicitações</h5>
+    <div v-if="tradeStore.isLoading">
+      <LoadingComponent />
+    </div>
 
     <div>
       <q-table
@@ -40,6 +43,7 @@
 </template>
 
 <script setup lang="ts">
+import LoadingComponent from '@/components/LoadingComponent.vue';
 import { useNotification } from '@/composables/useNotification';
 import type { Trade } from '@/models/Trade';
 import { useTradesStore } from '@/stores/tradesStore';
@@ -114,7 +118,6 @@ async function onDelete(id: string) {
       if(tradeRemove !== -1){
         tradeStore.listUserTrade.splice(tradeRemove, 1)
       }
-      
       notification.success('Solicitação de troca deletada com sucesso')
     } catch {
       notification.error('Erro ao excluir solicitação do usuário')

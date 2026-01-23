@@ -15,6 +15,11 @@
         </q-tooltip>
       </q-btn>
     </div>
+
+    <div v-if="tradeStore.isLoading">
+      <LoadingComponent />
+    </div>
+
     <q-table
       flat
       bordered
@@ -77,6 +82,7 @@ import { useNotification } from '@/composables/useNotification'
 import { useRouter } from 'vue-router'
 import type { QTableColumn } from 'quasar'
 import { useAuthStore } from '@/stores/authStore'
+import LoadingComponent from '@/components/LoadingComponent.vue'
 
 const tradeStore = useTradesStore()
 const { listTrade } = storeToRefs(tradeStore)

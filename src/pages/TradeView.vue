@@ -14,6 +14,10 @@
     </header>
   </div>
 
+  <div v-if="tradeStore.isLoading">
+    <LoadingComponent />
+  </div>
+
   <div class="q-mx-lg row flex justify-around no-wrap" style="align-items: center; height: 25px; ">
     <h6 class="text-red-7 text-bold">Oferencendo</h6>
     <q-icon
@@ -86,6 +90,7 @@
 
 <script setup lang="ts">
 
+import LoadingComponent from '@/components/LoadingComponent.vue'
 import { useNotification } from '@/composables/useNotification'
 import type { Card } from '@/models/Card'
 import type { Trade } from '@/models/Trade'
