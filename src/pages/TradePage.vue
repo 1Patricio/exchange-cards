@@ -37,8 +37,8 @@
       hide-pagination
       @row-click="onClick"
       table-header-class="bg-grey-3"
-
     />
+    
     <div v-if="authStore.token != null" >
       <q-separator class="q-my-lg"/>
       <div class="col">

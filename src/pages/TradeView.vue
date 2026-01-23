@@ -89,7 +89,6 @@
 </template>
 
 <script setup lang="ts">
-
 import LoadingComponent from '@/components/LoadingComponent.vue'
 import { useNotification } from '@/composables/useNotification'
 import type { Card } from '@/models/Card'

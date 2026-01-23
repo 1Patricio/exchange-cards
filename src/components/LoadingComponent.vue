@@ -1,7 +1,7 @@
 <template>
-    <q-inner-loading
+  <q-inner-loading
     :showing=true
     label-class="text-teal"
     color="secondary"
-    />
+  />
 </template>

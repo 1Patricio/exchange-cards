@@ -36,9 +36,6 @@
       </q-table>
     </div>
 
-    <div>
-
-    </div>
   </div>
 </template>
 
@@ -94,8 +91,6 @@ onMounted(async () => {
     notification.error("Erro ao buscar solicitação de trocas")
   }
 })
-
-
 
 async function onDelete(id: string) {
   $q.dialog({

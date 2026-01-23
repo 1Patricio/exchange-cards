@@ -38,11 +38,9 @@
       <q-drawer
         v-model="drawer"
         show-if-above
-
         :mini="miniState"
         @mouseenter="miniState = false"
         @mouseleave="miniState = true"
-
         :width="200"
         :breakpoint="500"
         bordered
@@ -79,7 +77,6 @@
                 Perfil
               </q-item-section>
             </q-item>
-
           </q-list>
         </q-scroll-area>
       </q-drawer>

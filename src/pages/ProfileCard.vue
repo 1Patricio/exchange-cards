@@ -6,9 +6,11 @@
       <p><router-link class="text-grey-8" :to="{ name: 'profile-trade' }">Trocas</router-link></p>
     </div>
     <h5 class="q-my-sm text-secondary text-bold">Minhas Cartas</h5>
+
     <div v-if="cardStore.isLoading">
       <LoadingComponent />
     </div>
+
     <div v-else>
       <div v-if="cardStore.listUserCards.length">
         <q-input
@@ -23,16 +25,16 @@
         </q-input>
         <div class="row q-col-gutter-md">
           <div
-          v-for="card in filteredCards"
-          :key="card.id"
-          class="col-12 col-sm-6 col-md-4 col-lg-4"
+            v-for="card in filteredCards"
+            :key="card.id"
+            class="col-12 col-sm-6 col-md-4 col-lg-4"
           >
             <q-card flat bordered class="full-height q-pa-md">
               <q-img
-              :src="card.imageUrl"
-              height="350px"
-              ratio="16/9"
-              class=""
+                :src="card.imageUrl"
+                height="350px"
+                ratio="16/9"
+                class=""
               />
 
               <q-card-section>
@@ -55,6 +57,7 @@
           </div>
         </div>
       </div>
+
       <div v-else>
         <div class="col-12 col-md-6 flex flex-center bg-grey-2 q-pa-md q-pt-lg">
           <div class="text-center">
@@ -69,6 +72,7 @@
           </div>
         </div>
       </div>
+      
     </div>
   </div>
 </template>

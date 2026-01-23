@@ -12,7 +12,7 @@
             contain
           />
           <h4 class="text-secondary text-bold q-mb-sm">Você não possui cartas!</h4>
-            <p class="text-grey-darken-1">Clique agora em <strong><router-link class="text-secondary" :to="{ name: 'card' }">Cartas</router-link></strong> e adicione cartas a sua conta</p>
+          <p class="text-grey-darken-1">Clique agora em <strong><router-link class="text-secondary" :to="{ name: 'card' }">Cartas</router-link></strong> e adicione cartas a sua conta</p>
         </div>
       </div>
     </div>
@@ -38,6 +38,7 @@
               </template>
             </q-input>
           </div>
+
           <div>
             <q-btn
               @click="step === 2 ? createTrade() : stepperRef?.next()"
@@ -129,6 +130,7 @@
               </template>
             </q-input>
           </div>
+
           <div>
             <q-btn
               v-if="step > 1"
@@ -138,6 +140,7 @@
               label="Voltar"
               class="q-ml-sm"
             />
+
             <q-btn
               @click="step === 2 ? createTrade() : stepperRef?.next()"
               color="secondary"
@@ -308,7 +311,6 @@ function toggleCardOffering(cardId: string) {
     selectedOfferingCards.value.push({ cardId: cardId, type: 'OFFERING' })
     notification.success('Carta adicionada oferta', 2000)
   }
-
 }
 
 function toggleCardReceiving(cardId: string) {

@@ -91,6 +91,7 @@
     </div>
   </q-page>
 </template>
+
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useAuthStore } from '@/stores/authStore';
@@ -98,17 +99,16 @@ import { useRouter } from 'vue-router';
 import { useNotification } from '@/composables/useNotification';
 
 const notification = useNotification()
-
 const auth = useAuthStore()
 const router = useRouter()
 
 const name = ref('');
 const email = ref('');
 const password = ref('');
+const error = ref<string | null>(null)
 
 const emailRegex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.){3}[0-9]{1,3}|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 
-const error = ref<string | null>(null)
 
 const isDisabled = computed(() => {
   if (!name.value) return true

@@ -42,16 +42,16 @@
               label="Senha"
               :rules="[val => requiredField(val, 'Senha'), val => minLength(val, 6, 'Senha')]"
             >
-            <template v-slot:append>
-              <q-icon
-                :name="passwordIsVisible ? 'visibility_off' : 'visibility'"
-                @click="showPassword"
-              />
-            </template>
+              <template v-slot:append>
+                <q-icon
+                  :name="passwordIsVisible ? 'visibility_off' : 'visibility'"
+                  @click="showPassword"
+                />
+              </template>
             </q-input>
 
             <q-card-section v-if="error" class="text-center q-pa-none">
-             <p class="text-red-6">{{ error }}</p>
+              <p class="text-red-6">{{ error }}</p>
             </q-card-section>
 
             <q-btn
@@ -87,6 +87,7 @@
     </div>
   </q-page>
 </template>
+
 <script setup lang="ts">
 import { computed, ref } from 'vue';
 import { useAuthStore } from '@/stores/authStore';
